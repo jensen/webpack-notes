@@ -1,0 +1,18 @@
+
+$fonts: 'Light' 300 normal,
+        'LightItalic' 300 italic,
+        'Regular' 400 normal,
+        'Italic' 400 italic,
+        'Bold' 700 normal,
+        'BoldItalic' 700 italic,
+        'Black' 900 normal,
+        'BlackItalic' 900 italic;
+
+@each $font in $fonts {
+  @font-face {
+    font-family: 'Merriweather';
+    src: url('../fonts/Merriweather-#{nth($font, 1)}.ttf') format('truetype');
+    font-weight: #{nth($font, 2)};
+    font-style: #{nth($font, 3)};
+  }
+}
