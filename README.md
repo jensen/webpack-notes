@@ -234,7 +234,20 @@ rules.push({
 })
 ```
 
-The Sass styles have a dependency on the `Merriweather` font. We can make these available using a `file-loader`. This will resolve `url()` dependencies.
+The Sass styles have a dependency on the `Merriweather` font. We can make these available using a `file-loader`. This will copy files resolved through `url()` dependencies.
+
+```javascript
+rules.push({
+  test: /\.ttf$/,
+  use: {
+    loader: 'file-loader',
+    options: {
+      name: '[name].[ext]',
+      outputPath: 'fonts/'
+    }
+  }
+})
+```
 
 When you run webpack again, it should emit the bundle and the fonts. Currently the css is being bundled in as a module in the .js asset file.
 
