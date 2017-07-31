@@ -20,7 +20,7 @@ Webpack will allow you to apply transformations to the code and assets through l
 
 ### Four Core Concepts
 
-The majority of the benefit that can be gained from webpack once you understand the four core concepts. The configuration seems complicated but is pretty straight forward. The reason webpack is so intimidating is because it is so powerful.
+The majority of the benefit can be gained from webpack once you understand the four core concepts. The configuration seems complicated but is pretty straight forward. The reason webpack is so intimidating is because it is so powerful.
 
 1. inputs (webpack calls this entry)
 2. outputs
