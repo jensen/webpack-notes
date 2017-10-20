@@ -12,7 +12,7 @@ With your final project it is likely you used an existing project template to wo
 
 ## Webpack
 
-At the core of our project configuration is webpack. Webpack is a asset and code bundler. Our code is full of references to assets and other code. When you type `import` or `require` in your code you are referencing a dependency. The `@import` and `url()` in css are also ways to reference dependencies.
+At the core of our project configuration is webpack. Webpack is a asset and code bundler. Our code is full of references to assets and other code. When you type `import` or `require` in your code you are referencing a dependency. The `@import` and `url()` in CSS are also ways to reference dependencies.
 
 When given an entry point to your application, webpack will follow dependency references and collect all of the code into one or more bundles. The bundles are then available to be loaded by the browser. If any of the dependencies are assets, like images or fonts, then webpack can copy them to a distribution or build directory.
 
@@ -20,7 +20,7 @@ Webpack will allow you to apply transformations to the code and assets through l
 
 ### Four Core Concepts
 
-The majority of the benefit can be gained from webpack once you understand the four core concepts. The configuration seems complicated but is pretty straight forward. The reason webpack is so intimidating is because it is so powerful.
+The reason webpack is so intimidating is because it has a lot of complicated features. The majority of the benefit can be gained from webpack once you understand the four core concepts.
 
 1. inputs (webpack calls this entry)
 2. outputs
@@ -43,7 +43,7 @@ entry: {
 
 > The destination for your bundle or bundles.
 
-Webpack knows about a bundle that we want to call `app` we can setup a location for that file in the `output` configuration. We need to provide a path where files are `emitted` and a filename. The configuration below will create a file called `app-generated.js` in the `build/js/` directory relative to your `webpack.config.js`.
+Webpack knows about a bundle that we want to call `app` we can setup a location for that file in the `output` configuration. We need to provide a path where files are emitted and a filename. The configuration below will create a file called `app-generated.js` in the `build/js/` directory relative to your `webpack.config.js`.
 
 ```javascript
 output: {
@@ -141,9 +141,11 @@ We need to install `webpack`.
 npm i -S webpack
 ```
 
+Webpack provides a JavaScript API and a CLI. Libraries like WebpackDevServer use the JavaScript API. Since we are installing webpack locally we need to use the path `./node_modules/.bin/webpack` to launch the CLI.
+
 A `webpack.config.js` file must export an object containing the configuration for the project.
 
-> Warning: The following exmaples don't follow convention for webpack configuration files. I have structured the example like this in order to compose my webpack config in a certain order. Please see webpack.config.js for a more conventional configuration.
+> Warning: The following examples don't follow convention for webpack configuration files. I have structured the example like this in order to compose my webpack config in a certain order. Please see webpack.config.js for a more conventional configuration.
 
 ```javascript
 const config = {}
@@ -186,11 +188,11 @@ config.output = {
 }
 ```
 
-At this point we can run `webpack` from the root of our project. This will automatically pick up the `webpack.config.js` file in the same location. `You may need an appropriate loader to handle this file type.`
+At this point we can run the CLI from the root of our project. This will automatically pick up the `webpack.config.js` file in the same location. Expect to see `You may need an appropriate loader to handle this file type.`.
 
 ### Loaders
 
-To convert our es2015 and jsx code to regular JavaScript we can use `babel-loader`.
+To convert our es2015 and jsx code to es5 JavaScript we can use `babel-loader`.
 
 ```
 npm i -S babel-core babel-loader babel-preset-env babel-preset-es2015 babel-preset-react
@@ -249,11 +251,11 @@ rules.push({
 })
 ```
 
-When you run webpack again, it should emit the bundle and the fonts. Currently the css is being bundled in as a module in the .js asset file.
+When you run webpack again, it should emit the bundle and the fonts. Currently the CSS is being bundled in as a module in the .js asset file.
 
 ### Plugins
 
-We need to provide an `index.html` file that can link the bundle and provide React with a mount point in the dom. We can use a Plugin to generate this file.
+We need to provide an `index.html` file that can link the bundle and provide React with a mount point in the DOM. We can use a Plugin to generate this file.
 
 ```
 npm i -S html-webpack-plugin
@@ -277,7 +279,7 @@ plugins.push(new HtmlWebpackPlugin({
 }))
 ```
 
-We can run the server and take a look at the static assets that webpack has emitted. One issue that becomes obvious is that the configuration doesn't copy the images to the static directory, so our svg file is left behind. Since we are loading the image using an `<img>` tag we can copy the files to our static directory.
+We can run the CLI and take a look at the static assets that webpack has emitted. One issue that becomes obvious is that the configuration doesn't copy the images to the static directory, our svg file is left behind. In our react component we are requesting the image using an `<img>` tag.
 
 ```javascript
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -289,7 +291,7 @@ plugins.push(new CopyWebpackPlugin([
 
 ### Loaders & Plugins
 
-We can combine loaders and plugins to help satisfy our final requirement. Currently the css is bundled in with the js. An initial requirement for this project was that the css was emitted as it's own file.
+We can combine loaders and plugins to help satisfy our final requirement. Currently the CSS is bundled in with the js. An initial requirement for this project was that the CSS was emitted as it's own file.
 
 The rule for scss needs to be updated. We will use the ExtractTextWebpackPlugin.
 
@@ -297,7 +299,7 @@ The rule for scss needs to be updated. We will use the ExtractTextWebpackPlugin.
 npm i -S extract-text-webpack-plugin
 ```
 
-We still use the `sass-loader` to convert Sass to css. The `css-loader` will resolve `import` and `url()` dependencies.
+We still use the `sass-loader` to convert Sass to CSS. The `css-loader` will resolve `import` and `url()` dependencies.
 
 ```javascript
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
@@ -311,13 +313,13 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
 })
 ```
 
-The loader can collect all of the css, but we need to use a plugin to write the resulting file to disk.
+The loader can collect all of the CSS, but we need to use a plugin to write the resulting file to disk.
 
 ```javascript
 plugins.push(new ExtractTextWebpackPlugin('css/app-generated.css'))
 ```
 
-Since we have now changed the location of the css file, our relative paths to the fonts will stop working. We can easily resolve this by adding a `publicPath` property to our output configuration.
+Since we have now changed the location of the CSS file, our relative paths to the fonts will stop working. We can easily resolve this by adding a `publicPath` property to our output configuration.
 
 ```javascript
 config.output.publicPath = '/'
@@ -358,7 +360,7 @@ config.devServer = {
 }
 ```
 
-One way we can run the webpack-dev-server is through the CLI with `webpack-dev-server --progress`.
+One way we can run the webpack-dev-server is through the CLI with `./node_modules/.bin/webpack-dev-server --progress`.
 
 ### Production
 
