@@ -261,7 +261,7 @@ We need to provide an `index.html` file that can link the bundle and provide Rea
 npm i -S html-webpack-plugin
 ```
 
-We have a template html file that we put a react mount point. We also want webpack to `inject` the outputs automatically.
+We have a template html file that we put a react mount point. Webpack will `inject` the outputs automatically into the file.
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -274,8 +274,7 @@ paths.template = path.resolve(__dirname, 'client/index.html')
 
 plugins.push(new HtmlWebpackPlugin({
   filename: 'index.html',
-  template: paths.template,
-  inject: true
+  template: paths.template
 }))
 ```
 
