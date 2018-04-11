@@ -128,7 +128,7 @@ It is a good idea to determine what requirements you have for your project confi
 
 1. I would like to use Sass to write my styles.
 2. I would like my .css to be in a separate file, rather than embedded in my js bundle as a module.
-3. I would like to write my JavaScript using es2015 featuers.
+3. I would like to write my JavaScript using es2015 features.
 4. I would like to use .jsx syntax for my React components.
 5. I would like to use a custom font.
 6. I need a react mount point for my application in my html file.
