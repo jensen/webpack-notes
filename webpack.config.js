@@ -2,7 +2,7 @@ const path = require('path');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const paths = {
   app: path.resolve(__dirname, 'client/js'),
@@ -14,6 +14,7 @@ const paths = {
 const env = process.env.NODE_ENV || 'development';
 
 module.exports = {
+  mode: env,
   entry: {
     app: path.join(paths.app, '/index.js')
   },
@@ -30,16 +31,17 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'es2015', 'react']
+            presets: ['env', 'react']
           }
         }
       },
       {
         test: /\.scss$/,
-        use: ExtractTextWebpackPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?!sass-loader'
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.ttf$/,
@@ -54,7 +56,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextWebpackPlugin('css/app-generated.css'),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name]-generated.css'
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: paths.template,

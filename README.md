@@ -150,7 +150,7 @@ A `webpack.config.js` file must export an object containing the configuration fo
 ```javascript
 const config = {}
 
-module.exports = config;
+module.exports = config
 ```
 
 ### Inputs
@@ -195,10 +195,10 @@ At this point we can run the CLI from the root of our project. This will automat
 To convert our es2015 and jsx code to es5 JavaScript we can use `babel-loader`.
 
 ```
-npm i -S babel-core babel-loader babel-preset-env babel-preset-es2015 babel-preset-react
+npm i -S babel-core babel-loader babel-preset-env babel-preset-react
 ```
 
-This particular loader makes use of presets. The presets we will use are `env`, `es2015` and `react`. Presets configure the loader for the types of transpiling and polyfils necessary.
+This particular loader makes use of presets. The presets we will use are `env`, and `react`. Presets configure the loader for the types of transpiling and polyfils necessary.
 
 ```javascript
 const rules = []
@@ -213,7 +213,7 @@ rules.push({
   use: {
     loader: 'babel-loader',
     options: {
-      presets: ['env', 'es2015', 'react']
+      presets: ['env', 'react']
     }
   }
 })
@@ -264,9 +264,9 @@ npm i -S html-webpack-plugin
 We have a template html file that we put a react mount point. Webpack will `inject` the outputs automatically into the file.
 
 ```javascript
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const plugins = [];
+const plugins = []
 
 config.plugins = plugins
 
@@ -292,30 +292,33 @@ plugins.push(new CopyWebpackPlugin([
 
 We can combine loaders and plugins to help satisfy our final requirement. Currently the CSS is bundled in with the js. An initial requirement for this project was that the CSS was emitted as it's own file.
 
-The rule for scss needs to be updated. We will use the ExtractTextWebpackPlugin.
+The rule for scss needs to be updated. We will use the MiniCssExtractPlugin.
 
 ```
-npm i -S extract-text-webpack-plugin
+npm i -S mini-css-extract-plugin
 ```
 
 We still use the `sass-loader` to convert Sass to CSS. The `css-loader` will resolve `import` and `url()` dependencies.
 
 ```javascript
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-{
+rules.push({
   test: /\.scss$/,
-  use: ExtractTextWebpackPlugin.extract({
-    fallback: 'style-loader',
-    use: 'css-loader?!sass-loader'
-  })
+  use: [
+    MiniCssExtractPlugin.loader,
+    'css-loader',
+    'sass-loader'
+  ]
 })
 ```
 
 The loader can collect all of the CSS, but we need to use a plugin to write the resulting file to disk.
 
 ```javascript
-plugins.push(new ExtractTextWebpackPlugin('css/app-generated.css'))
+plugins.push(new MiniCssExtractPlugin({
+  filename: 'css/[name]-generated.css'
+}))
 ```
 
 Since we have now changed the location of the CSS file, our relative paths to the fonts will stop working. We can easily resolve this by adding a `publicPath` property to our output configuration.
