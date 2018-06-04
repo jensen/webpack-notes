@@ -138,10 +138,10 @@ It is a good idea to determine what requirements you have for your project confi
 We need to install `webpack`.
 
 ```
-npm i -S webpack
+npm i -S webpack webpack-cli
 ```
 
-Webpack provides a JavaScript API and a CLI. Libraries like WebpackDevServer use the JavaScript API. Since we are installing webpack locally we need to use the path `./node_modules/.bin/webpack` to launch the CLI.
+Webpack provides a JavaScript API and a CLI. Starting with Webpack 4, the CLI is now a separate pacakge. Libraries like WebpackDevServer use the JavaScript API. Since we are installing webpack locally we need to use the path `./node_modules/.bin/webpack` to launch the CLI.
 
 A `webpack.config.js` file must export an object containing the configuration for the project.
 
