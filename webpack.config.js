@@ -5,8 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const paths = {
-  app: path.resolve(__dirname, 'client/js'),
-  styles: path.resolve(__dirname, 'client/scss'),
+  app: path.resolve(__dirname, 'client/js/'),
+  styles: path.resolve(__dirname, 'client/scss/'),
   build: path.resolve(__dirname, 'build/'),
   template: path.resolve(__dirname, 'client/index.html')
 };
@@ -71,10 +71,15 @@ module.exports = {
   devtool: env === 'production' ? 'cheap-source-map' : 'eval-source-map',
   devServer: {
     contentBase: paths.build,
+    host: '0.0.0.0',
+    port: 3000,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000,
       ignored: /node_modules/
+    },
+    proxy: {
+      '/api': 'http://localhost:3001'
     }
   }
 };
